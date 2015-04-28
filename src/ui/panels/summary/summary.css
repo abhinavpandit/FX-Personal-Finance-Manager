@@ -1,0 +1,47 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 4, 2015, 1:52:28 PM
+    Author     : HP
+*/
+@font-face {
+font-family: coolvetica;
+src: url('res/coolvetica.ttf');
+
+}
+@font-face
+{
+font-family: coneria;
+src: url('res/coneria.ttf');
+    
+}
+
+
+.tree-table-cell
+{
+   /* -fx-text-fill: white;*/
+    -fx-font-weight: bold;
+    -fx-font-family: "Helvetica";
+
+  
+}
+tree-table-cell
+{
+   /* -fx-text-fill: white;*/
+    -fx-font-weight: bold;
+    -fx-font-family: coneria;
+}
+/*
+.tree-table-view
+{
+    -fx-font-size: 12;
+    -fx-font-family: coneria;
+}
+.grid-pane
+{
+    
+}
+*/

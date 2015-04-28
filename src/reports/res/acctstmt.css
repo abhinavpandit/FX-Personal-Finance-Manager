@@ -1,0 +1,27 @@
+/* */
+
+#main
+{
+display:block;
+margin-left:10%;
+margin-right:10%;
+width:80%;
+border: 1px solid red;
+	
+}
+
+#heading
+{
+	font-size:16;
+	font-weight: bold;
+	color: white;
+	align: center;
+}
+body
+{
+	/*background-color: gray;*/
+}
+#table
+{
+	font-family:Helvetica;
+}
