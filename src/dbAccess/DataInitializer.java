@@ -47,7 +47,7 @@ public class DataInitializer
         try
         {
              String path = System.getProperty("user.dir");
-             String dbPath = "jdbc:h2:" +path +"\\" +"database";
+             String dbPath = "jdbc:h2:" +path +"\\" +"databases" +"\\" +"database";
              System.out.println("db path is : "+dbPath);
              connection = DriverManager.getConnection(dbPath);
              System.out.println("DataInitializer : Successfully connected to databse at : " +new java.util.Date());
