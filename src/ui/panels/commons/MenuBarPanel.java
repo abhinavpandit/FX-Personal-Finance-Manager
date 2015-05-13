@@ -23,6 +23,7 @@ import ui.dialogs.NewAccountDialog;
 import ui.dialogs.NewAccountGroupDialog;
 import ui.dialogs.NewTransactionDialog;
 import ui.dialogs.TransactionCalendar;
+import utilities.NewFileWizard;
 
 /**
  *
@@ -124,6 +125,16 @@ public class MenuBarPanel
     }
     private  void wireUpControls()
     {
+        newMenuItem.setOnAction(event ->{ 
+            NewFileWizard newFileWizard = new NewFileWizard();
+            try {
+                newFileWizard.start(mainStage);
+            } catch (Exception ex) {
+                Logger.getLogger(MenuBarPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        
+        });
         exitMenuItem.setOnAction(e -> {
          
                 System.exit(0);

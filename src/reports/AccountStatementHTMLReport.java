@@ -44,16 +44,7 @@ public class AccountStatementHTMLReport
        // generateReport(dataModel.getAccountList().get(0));
         
     }
-    private AccountStatementHTMLReport() throws SQLException, IOException
-    {
-       dataModel = new DataModel(new SimpleStringProperty());
-        file = new File("tempReport.txt");
-        if(!file.exists())
-            file.createNewFile();
-        fileWriter = new FileWriter(file);
-        bufferedWriter = new BufferedWriter(fileWriter); 
-      // generateReport(dataModel.getAccountList().get(0));
-    }
+    
     
     public File generateReport(Account forAccount) throws IOException
     {
@@ -122,15 +113,7 @@ public class AccountStatementHTMLReport
     
     public static void main(String [] args)
     {
-        try 
-        {
-            new AccountStatementHTMLReport();
-        } 
-        catch (SQLException ex) {
-            Logger.getLogger(AccountStatementHTMLReport.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(AccountStatementHTMLReport.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
     
     

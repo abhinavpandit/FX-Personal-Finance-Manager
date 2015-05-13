@@ -53,7 +53,7 @@ public class NewAccountGroupDialog extends Application
     
     public NewAccountGroupDialog() throws SQLException 
     {
-        dataModel = new DataModel(new SimpleStringProperty());
+       // dataModel = new DataModel(new SimpleStringProperty());
     }
 
     @Override

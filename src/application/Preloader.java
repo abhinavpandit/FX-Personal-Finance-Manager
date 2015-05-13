@@ -7,15 +7,28 @@
 package application;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.AuthProvider;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.Reflection;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -32,15 +45,21 @@ public class Preloader extends Application
     private GridPane mainGrid;
     private FileChooser fileChooser;
     private Main mainApplication;
+    Label filePathLabel;
     private Button chooseButton;
     private Button openButton;
     private Button createNewButton;
+    PasswordField passwordField;
     private TextArea textArea;
     private Stage primaryStage;
+    private Properties applicationProperties;
+    
+    private File fileToBeOpened;
 
     @Override
     public void start(Stage primaryStage) throws Exception 
     {
+        loadProperties();
         this.primaryStage = primaryStage;
         setUpMainGrid();
         setUpControls();
@@ -67,14 +86,13 @@ public class Preloader extends Application
         
         
         Text fxLabel = new Text("FX Personal Finance Manager");
-        // Reflection effect
-                Reflection r = new Reflection();
-                r.setFraction(0.7f);
-                fxLabel.setFill(Color.RED);
-                fxLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
-                fxLabel.setEffect(r);
-                
-        Label filePathLabel = new Label("/");
+        
+        String lastFilePath = applicationProperties.getProperty("lastfile", null);
+        if(lastFilePath!=null)
+        {
+            fileToBeOpened = new File(lastFilePath);
+        }
+        filePathLabel = new Label(lastFilePath);
         
         chooseButton = new Button("Choose");
         
@@ -84,15 +102,25 @@ public class Preloader extends Application
         textArea = new TextArea();
         textArea.setMaxHeight(100);
         
+        Label passwordLabel = new Label("Password ");
+        passwordField = new PasswordField();
         mainGrid.add(fxLabel, 0, 0, 2, 1);
         
-        mainGrid.add(filePathLabel,0,1);
-        mainGrid.add(chooseButton,1,1);
+        mainGrid.add(filePathLabel,0,1,2,1);
         
-        mainGrid.add(openButton, 0, 2);
+        mainGrid.add(chooseButton,0,2);
         mainGrid.add(createNewButton,1,2);
         
-        mainGrid.add(textArea,0,3,2,1);
+        mainGrid.add(passwordLabel,0,3);
+        mainGrid.add(passwordField, 1, 3);
+        
+        mainGrid.add(openButton, 0, 4, 2, 1);
+        GridPane.setHalignment(openButton, HPos.CENTER);
+        GridPane.setHgrow(openButton, Priority.ALWAYS);
+        
+       
+        
+        //mainGrid.add(textArea,0,3,2,1);
     }
     public static void main(String [] args)
     {
@@ -102,16 +130,43 @@ public class Preloader extends Application
     private void setUpControls() 
     {
        
-        chooseButton.setOnAction(event -> { 
+        chooseButton.setOnAction(event -> 
+        { 
             System.out.println("choose button event detected");
-        fileChooser = new FileChooser();
-        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Database Files", "db"));
-            File file = fileChooser.showOpenDialog(primaryStage);
-            textArea.appendText("File Opened : \n");
-            textArea.appendText("" +file.getAbsolutePath());
-        
-        
+            fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("FX Finance Files", "*.fxm"));
+            fileToBeOpened = fileChooser.showOpenDialog(primaryStage);
+            filePathLabel.setText(fileToBeOpened.getAbsolutePath());
+           
         });
+        
+        openButton.setOnAction(new EventHandler<ActionEvent>() 
+        {
+            @Override
+            public void handle(ActionEvent event) 
+            {
+               if(fileToBeOpened == null)
+                   return;
+               Properties dataFile = new Properties();
+                try 
+                {
+                    dataFile.load(new FileInputStream(fileToBeOpened));
+                    String dbName = dataFile.getProperty("dbname")
+                } 
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(Preloader.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+
+    private void loadProperties() throws FileNotFoundException, IOException 
+    {
+        applicationProperties = new Properties();
+        InputStream in = this.getClass().getResourceAsStream("app.conf");
+        applicationProperties.load(in);
+        in.close();
     }
     
 }

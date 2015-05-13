@@ -53,7 +53,7 @@ public class IncomeVsExpenseReportTotals
     }
     public IncomeVsExpenseReportTotals() throws SQLException, IOException
     {
-       dataModel = new DataModel(new SimpleStringProperty());
+       //dataModel = new DataModel(new SimpleStringProperty());
         file = new File("incomeVsExpenseTotalsReport.txt");
         if(!file.exists())
             file.createNewFile();

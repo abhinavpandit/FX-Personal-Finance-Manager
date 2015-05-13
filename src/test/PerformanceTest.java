@@ -25,7 +25,7 @@ public class PerformanceTest
     public PerformanceTest() throws SQLException 
     {
         System.out.println("Loading Data model at : "+ new Date());
-        dataModel = new DataModel(new SimpleStringProperty());
+      //  dataModel = new DataModel(new SimpleStringProperty());
         System.out.println("Finished loading dataModel at : "+new Date());
         
         int no_of_accounts = dataModel.getAccountList().size();

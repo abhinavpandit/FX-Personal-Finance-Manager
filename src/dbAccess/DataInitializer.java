@@ -1,6 +1,7 @@
 
 package dbAccess;
 
+import java.io.File;
 import java.sql.*;
 import java.time.DateTimeException;
 import java.time.DayOfWeek;
@@ -33,23 +34,25 @@ public class DataInitializer
     private ObservableList<AccountGroup> accountGroupList;
     private ObservableList<Payee> payeeList;
     private ObservableList<ScheduledTransaction> scheduledTransactionList;
+    private final File databaseFile;
     
     private Statement stmt = null;
     
     private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
    
-    public DataInitializer(ObservableList<Account> accountList, ObservableList<Transaction> transactionList, ObservableList<AccountGroup> accountGroupList, ObservableList<Payee> payeeList) throws SQLException
+    public DataInitializer(ObservableList<Account> accountList, ObservableList<Transaction> transactionList, ObservableList<AccountGroup> accountGroupList, ObservableList<Payee> payeeList, File dbFile) throws SQLException
     {
     	this.accountGroupList = accountGroupList;
     	this.accountList =accountList;
     	this.transactionList = transactionList;
     	this.payeeList = payeeList;
+        this.databaseFile = dbFile;
         try
         {
-             String path = System.getProperty("user.dir");
-             String dbPath = "jdbc:h2:" +path +"\\" +"databases" +"\\" +"database";
-             System.out.println("db path is : "+dbPath);
-             connection = DriverManager.getConnection(dbPath);
+             //String path = System.getProperty("user.dir");
+            // String dbPath = "jdbc:h2:" +path +"\\" +"databases" +"\\" +"database";
+             //System.out.println("db path is : "+dbPath);
+             connection = DriverManager.getConnection(dbFile.getAbsolutePath());
              System.out.println("DataInitializer : Successfully connected to databse at : " +new java.util.Date());
         }
         catch(Exception e)

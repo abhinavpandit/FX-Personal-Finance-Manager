@@ -58,7 +58,7 @@ public class PayeeManager extends Application
 	
 	public  PayeeManager() throws SQLException 
 	{
-            dataModel = new DataModel(new SimpleStringProperty());
+            //dataModel = new DataModel(new SimpleStringProperty());
 	}
 	public  PayeeManager(DataModel dataModel) throws SQLException 
 	{

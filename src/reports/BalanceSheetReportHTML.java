@@ -121,7 +121,7 @@ public class BalanceSheetReportHTML
     
     public static void main(String [] args) throws SQLException, IOException
     {
-        new BalanceSheetReportHTML(new DataModel(new SimpleStringProperty()));
+      //  new BalanceSheetReportHTML(new DataModel(new SimpleStringProperty()));
     }
     
     

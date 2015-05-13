@@ -46,7 +46,7 @@ public class AccountStatementTextReport
     }
     private AccountStatementTextReport() throws SQLException, IOException
     {
-       dataModel = new DataModel(new SimpleStringProperty());
+       //dataModel = new DataModel(new SimpleStringProperty());
         file = new File("tempReport.txt");
         if(!file.exists())
             file.createNewFile();

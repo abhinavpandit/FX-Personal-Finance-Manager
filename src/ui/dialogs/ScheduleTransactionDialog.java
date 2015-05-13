@@ -107,11 +107,6 @@ public class ScheduleTransactionDialog extends Application
     }
     public ScheduleTransactionDialog()
     {
-        try {
-            dataModel = new DataModel(new SimpleStringProperty());
-        } catch (SQLException ex) {
-            Logger.getLogger(ScheduleTransactionDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override

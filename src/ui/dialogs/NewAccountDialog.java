@@ -87,7 +87,7 @@ public class NewAccountDialog extends Application
         
         public NewAccountDialog() throws SQLException
         {
-            dataModel = new DataModel(new SimpleStringProperty());
+           // dataModel = new DataModel(new SimpleStringProperty());
         }
 
 	@Override

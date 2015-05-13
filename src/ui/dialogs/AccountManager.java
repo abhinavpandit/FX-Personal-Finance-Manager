@@ -96,7 +96,7 @@ public class AccountManager extends Application
     }
     public AccountManager() throws SQLException
     {
-        dataModel = new DataModel(new SimpleStringProperty());
+        //dataModel = new DataModel(new SimpleStringProperty());
     }
 
     @Override

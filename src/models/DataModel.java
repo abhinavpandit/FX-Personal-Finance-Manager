@@ -7,6 +7,7 @@ package models;
 
 import dbAccess.DataInitializer;
 import dbAccess.DatabaseAccessObject;
+import java.io.File;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -36,11 +37,13 @@ public class DataModel
     DatabaseAccessObject dao;
     private final StringProperty status;
     private AccountGroup rootGroup;
+    private final File databaseFile;
     
-    public DataModel(StringProperty status) throws SQLException
+    public DataModel(File dbFile, StringProperty status) throws SQLException
     {
     	this.status = status;
-        DataInitializer di = new DataInitializer(accountList,transactionList,accountGroupList,payeeList);
+        this.databaseFile = dbFile;
+        DataInitializer di = new DataInitializer(accountList,transactionList,accountGroupList,payeeList,databaseFile);
         di.setScheduledTransactionList(scheduledTransactionList);
         di.initializeData();
         
@@ -294,7 +297,7 @@ public class DataModel
    
     public static void main(String [] args) throws SQLException
     {
-      DataModel dm = new DataModel(new SimpleStringProperty());
+     // DataModel dm = new DataModel(new SimpleStringProperty());
     }
 
    
