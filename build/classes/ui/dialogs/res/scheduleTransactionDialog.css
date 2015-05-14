@@ -1,0 +1,22 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 27, 2015, 2:33:37 PM
+    Author     : HP
+*/
+
+label
+{
+    -fx-font-family: "Helvetica";
+    -fx-font-weight : bold;
+    -fx-font-size : 12;
+}
+.label
+{
+     -fx-font-family: "Helvetica";
+    -fx-font-weight : bold;
+    -fx-font-size : 12;
+}
