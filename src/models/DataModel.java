@@ -8,6 +8,8 @@ package models;
 import dbAccess.DataInitializer;
 import dbAccess.DatabaseAccessObject;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -43,11 +45,14 @@ public class DataModel
     {
     	this.status = status;
         this.databaseFile = dbFile;
-        DataInitializer di = new DataInitializer(accountList,transactionList,accountGroupList,payeeList,databaseFile);
+         String dbFileURL = "jdbc:h2:" +dbFile.getAbsolutePath() +";IFEXISTS=TRUE";
+        Connection dbConnection = DriverManager.getConnection(dbFileURL);
+        
+        DataInitializer di = new DataInitializer(accountList,transactionList,accountGroupList,payeeList,dbConnection);
         di.setScheduledTransactionList(scheduledTransactionList);
         di.initializeData();
         
-        dao = new DatabaseAccessObject();
+        dao = new DatabaseAccessObject(dbConnection);
         rootGroup = getAccountGroupByID(0);
         
     }

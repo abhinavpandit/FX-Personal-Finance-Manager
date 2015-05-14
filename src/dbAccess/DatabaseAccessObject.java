@@ -19,12 +19,12 @@ public class DatabaseAccessObject
     Connection connection = null;
     private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public DatabaseAccessObject() throws SQLException 
+    public DatabaseAccessObject(Connection dbConnection) throws SQLException 
     {
-             String path = System.getProperty("user.dir");
+             /*String path = System.getProperty("user.dir");
              String dbPath = "jdbc:h2:" +path +"\\" +"databases" +"\\" +"database";
-             System.out.println("db path is : "+dbPath);
-             connection = DriverManager.getConnection(dbPath);
+             System.out.println("db path is : "+dbPath);*/
+             connection = dbConnection;//DriverManager.getConnection(dbPath);
     }
     // TRANSACTION FUNCTIONS.............................................
     public int addTransactionToDatabase(Transaction t) throws SQLException

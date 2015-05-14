@@ -63,14 +63,15 @@ public class Main extends Application
    // Tab summaryTab;
    // Tab registerTab;
 	@Override
-	public void start(Stage primaryStage) throws SQLException
+	public void start(Stage parentStage) throws SQLException
 	{
+            Stage primaryStage = new Stage();
              root = new VBox();
 	     root.setMinHeight(500);
 	     root.setMinWidth(1300);
              //root.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("res/binding_dark.png").toExternalForm()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
 
-	     initializeDataModel();
+	    // initializeDataModel();
 	     
 	     statusPanel = new StatusPanel(status);
 	     menuBar = new MenuBarPanel(primaryStage, dataModel).getMenuBar();
@@ -114,6 +115,10 @@ public class Main extends Application
 	               System.out.println("DataModel initialization completed at : "+new Date());
 	       
 	    }
+        public void setDataModel(DataModel dm)
+        {
+            this.dataModel = dm;
+        }
 	public static void main(String[] args) 
 	{
 
