@@ -65,7 +65,7 @@ import models.Payee;
 import models.ScheduledTransaction;
 import models.TRANSACTION_FREQUENCY;
 import models.Transaction;
-import utilities.WEEKDAYS;
+
 import ui.panels.commons.AccountTreeView;
 
 /**

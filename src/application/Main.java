@@ -1,6 +1,7 @@
 package application;
 	
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import javafx.application.Application;
@@ -8,6 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Side;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -19,6 +21,7 @@ import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
@@ -63,27 +66,26 @@ public class Main extends Application
    // Tab summaryTab;
    // Tab registerTab;
 	@Override
-	public void start(Stage parentStage) throws SQLException
+	public void start(Stage parentStage) throws SQLException, IOException
 	{
-            Stage primaryStage = new Stage();
+             Stage primaryStage = new Stage();
              root = new VBox();
 	     root.setMinHeight(500);
 	     root.setMinWidth(1300);
              //root.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("res/binding_dark.png").toExternalForm()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
 
 	    // initializeDataModel();
-	     
+	     dataModel.setStatusProperty(status);
 	     statusPanel = new StatusPanel(status);
 	     menuBar = new MenuBarPanel(primaryStage, dataModel).getMenuBar();
 	  
-	   //  toolBar = new ButtonPanel(this).getToolBar();
 	     contentPane = new ContentPane(dataModel, status).getTabPane();
 	      VBox.setVgrow(contentPane, Priority.ALWAYS);
 	     //contentPane.getStylesheets().add(this.getClass().getResource("tabPane.css").toExternalForm());
 	     root.getChildren().addAll(menuBar,contentPane,statusPanel);
 	     scene = new Scene(root,Screen.getPrimary().getVisualBounds().getWidth(),Screen.getPrimary().getVisualBounds().getHeight()-40,Color.BLACK);
              //scene.setFill(Color.BEIGE);
-	        
+	      //root.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0,0.5), CornerRadii.EMPTY, Insets.EMPTY)));
 	     
 	     primaryStage.setScene(scene);
 	     
@@ -111,7 +113,7 @@ public class Main extends Application
 	 private void initializeDataModel() throws SQLException
 	    {
 	        //status.set("Initializing data model at : "+new Date());
-	        dataModel = new DataModel(dataFile, status);
+	       // dataModel = new DataModel(dataFile, status);
 	               System.out.println("DataModel initialization completed at : "+new Date());
 	       
 	    }

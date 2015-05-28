@@ -6,6 +6,9 @@
 
 package test;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -18,21 +21,10 @@ import java.sql.Statement;
  */
 public class test 
 {
-    public static void main(String [] args) throws SQLException
+    public static void main(String [] args) throws SQLException, IOException
     {
-        String path = System.getProperty("user.dir");
-        String dbPath = "jdbc:h2:" +path +"\\" +"database";
-        System.out.println("db path is : "+dbPath);
-        Connection connection = DriverManager.getConnection(dbPath);
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM ACCOUNTGROUP");
-        while(rs.next())
-        {
-            System.out.println("record :");
-            System.out.println(rs.getLong(1));
-            System.out.println(rs.getString(2));
-                    
-        }
+        Desktop desktop = Desktop.getDesktop();
+        desktop.print(new File("F:/ap/temp.txt"));
     }
     
 }

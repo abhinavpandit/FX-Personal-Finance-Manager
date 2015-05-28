@@ -7,6 +7,8 @@ package ui.panels.register;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Level;
@@ -87,7 +89,27 @@ public class TransactionDataEntryPanelSlim extends HBox
         this.dataModel = dataModel;
         this.selectedAccountFromTree = selectedAccountFromTree;
         this.status = status;
-        dateField = new DatePicker(LocalDate.now());        
+        this.getStylesheets().add(this.getClass().getResource("register.css").toExternalForm());
+        dateField = new DatePicker(LocalDate.now());
+        dateField.setConverter(new StringConverter<LocalDate>() {
+           
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            @Override
+            public String toString(LocalDate object) {
+                if(object!=null)
+                    return object.format(dateFormat);
+                else
+                    return null;
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if(string!=null)
+                    return LocalDate.parse(string);
+                else
+                    return null;
+            }
+        });
         numField = new TextField();
         numField.setPromptText("Transaction Num");
         payeeField = new TextField();
@@ -110,7 +132,7 @@ public class TransactionDataEntryPanelSlim extends HBox
         
         enterButton = new Button("ENTER");
         enterButton.setMinWidth(60);
-        this.setMaxHeight(20);
+        this.setMaxHeight(30);
         this.setSpacing(5);
         
         dateField.setMaxWidth(100);
@@ -435,6 +457,16 @@ public class TransactionDataEntryPanelSlim extends HBox
         if(selectedAccount == null)
         {
             status.set("NO ACCOUNT SELECTED FOR TRANSACTION");
+            return;
+        }
+        if(selectedAccountFromTree.getValue() == null)
+        {
+            status.set("No Account Selected in Register");
+            return;
+        }
+        if(selectedAccountFromTree.getValue() == selectedAccount)
+        {
+            status.set("Error in Transaction Entry : Transaction Debits & Credits the Same Account");
             return;
         }
         if(creditAmount > debitAmount)

@@ -1,0 +1,24 @@
+INCOME VS EXPENSE REPORT  - DETAILS
+
+From : 	Mon May 25 17:05:04 IST 2015 TO 	Mon May 25 17:05:04 IST 2015
+
+|                                                 INCOME|                                                EXPENSE|
+__________________________________________________________________________
+|      Date                   Description         Amount|      Date                   Description         Amount|
+---------------------------------------------------------------------------------------
+|2015-01-31            By Salary Jan 2015        81000.0|2015-01-01               By Monthly Rent         4500.0|
+|2015-02-28            By Salary Feb 2015        82000.0|2015-01-08            By Electicity Bill         1250.0|
+|2015-03-31          By Salary March 2015        80000.0|2015-02-10           By Jeans & 2 Shirts         6400.0|
+|2015-04-30      By Salary for April 2015        85000.0|2015-02-11By Altec Lansing BXR-1005 Speakers         5500.0|
+|                                                       |2015-02-11    By Electricity Bill JAN 15         1300.0|
+|                                                       |2015-02-19      By Air Fare LA to Sydney        12000.0|
+|                                                       |2015-02-26                   By Cab Fare          500.0|
+|                                                       |2015-03-12    By Electricity Bill FEB 15         1340.0|
+|                                                       |2015-03-18            By 2 Formal Shirts         4500.0|
+|                                                       |2015-03-26              By Cold Medicine          550.0|
+|                                                       |2015-04-09                 By House Rent         9000.0|
+|                                                       |2015-04-15                 By Stationery         1600.0|
+|                                                       |2015-04-16         By Elec Bill March 15         1500.0|
+|                                                       |2015-04-16                 By Headphones         3000.0|
+|                                                       |2015-05-05    By Air Fare Sydney to Guam         6000.0|
+---------------------------------------------------------------------------

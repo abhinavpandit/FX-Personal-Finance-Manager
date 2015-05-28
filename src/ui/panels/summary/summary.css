@@ -19,7 +19,16 @@ src: url('res/coneria.ttf');
     
 }
 
-
+.tree-table-view .column-header
+{
+    -fx-background-color: #9d4024;
+    -fx-font-weight: bold;
+    -fx-text-fill: green;
+}
+.tree-table-view .column-header .label
+{
+    -fx-text-fill: whitesmoke;
+}
 .tree-table-cell
 {
    /* -fx-text-fill: white;*/
@@ -28,20 +37,41 @@ src: url('res/coneria.ttf');
 
   
 }
+.table-view .column-header
+{
+    -fx-background-color: #9d4024;
+    -fx-font-weight: bold;
+}
+.table-view .column-header .label
+{
+    -fx-text-fill: whitesmoke;
+}
 tree-table-cell
 {
    /* -fx-text-fill: white;*/
     -fx-font-weight: bold;
     -fx-font-family: coneria;
 }
-/*
-.tree-table-view
-{
-    -fx-font-size: 12;
-    -fx-font-family: coneria;
-}
+
+
 .grid-pane
+{
+   -fx-background-color: cornflowerblue; 
+}
+
+.quick_stats_labels
+{
+    -fx-font-weight: bold;
+    -fx-font-family: Helvetica;
+   
+}
+.tree-table-view
 {
     
 }
-*/
+.quick_statistics_label
+{
+    -fx-font-weight: bold;
+    -fx-font-family: Helvetica;
+    
+}

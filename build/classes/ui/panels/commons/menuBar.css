@@ -37,3 +37,15 @@ and open the template in the editor.
      -fx-font-weight: bold;
 }
 */
+.menu .label
+{
+    -fx-font-weight: bold;
+    -fx-font-family: Helvetica;
+}
+
+.menu-item .label
+{
+    
+    -fx-font-weight: bold;
+    
+}

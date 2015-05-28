@@ -14,10 +14,15 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
@@ -31,18 +36,27 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
+import javafx.util.Pair;
 import javafx.util.converter.CurrencyStringConverter;
 import models.ACCOUNT_TYPE;
 import models.AbstractAccount;
 import models.Account;
 import models.AccountGroup;
 import models.DataModel;
+import models.Transaction;
 import ui.models.AccountTreeModel;
 
 /**
@@ -55,6 +69,8 @@ public class SummaryPanel
     private final TreeTableView<AbstractAccount> treeTableView; 
     private GridPane mainGrid;
     AccountTreeModel accountTreeModel;
+
+    private HBox quickStatsPanel;
     
     // constructor..............................................
     public SummaryPanel(DataModel dataModel)
@@ -73,18 +89,22 @@ public class SummaryPanel
         mainGrid= new GridPane();
         ColumnConstraints col1 = new ColumnConstraints(500, 600, Double.MAX_VALUE, Priority.ALWAYS, HPos.LEFT, true);
         RowConstraints row1 = new RowConstraints(300, 300, Double.MAX_VALUE, Priority.ALWAYS, VPos.TOP, true);
+        RowConstraints row2 = new RowConstraints(150, 150, 150, Priority.NEVER, VPos.CENTER, true);
         mainGrid.getColumnConstraints().add(col1);
-        mainGrid.getRowConstraints().add(row1);
-       
+        mainGrid.getRowConstraints().addAll(row1,row2);
+        mainGrid.setPadding(new Insets(2, 5, 3, 5));
         mainGrid.getStylesheets().add(this.getClass().getResource("summary.css").toExternalForm());
-       
+       mainGrid.setVgap(2);
         accountTreeModel= new AccountTreeModel(dataModel);
         treeTableView.setRoot(accountTreeModel.getTreeRootItem());
         setUpTreeTable();
-        
-        
+        QuickStatisticsPanel quickStatisticsPanel = new QuickStatisticsPanel(dataModel);
+        treeTableView.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         mainGrid.add(treeTableView, 0, 0);
+        mainGrid.add(quickStatisticsPanel.getPanel(),0,1);
         initializeListener();
+                
+            
     }
     
    private void initializeListener()
@@ -108,6 +128,7 @@ public class SummaryPanel
             System.out.println("Summary Panel: onChanged() called on accountGroupList");
             while(c.next());
             {
+                
                 accountTreeModel.refreshTree();
                 treeTableView.setRoot(accountTreeModel.getTreeRootItem());
             }   
@@ -186,6 +207,7 @@ public class SummaryPanel
         treeTableView.showRootProperty().set(false);
     }
     
+   
     public TreeTableView<AbstractAccount> getTreeTableView()
     {
         return treeTableView;

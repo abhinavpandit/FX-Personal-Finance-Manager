@@ -7,12 +7,59 @@ and open the template in the editor.
     Created on : Mar 17, 2015, 1:54:45 PM
     Author     : HP
 */
-
+/*
 .tab-header-area tab-header-background
 {
     -fx-background-color: black;
 }
+
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: gray;
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #990033;
+}
+.tab-pane .tab
+{
+    -fx-background-color : #6666CC;
+}
+
+*/
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
 .tab-pane
 {
- /*   -fx-background-color: dimgrey;*/
+    -fx-tab-min-width:90px;
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #3c3c3c;
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #e6e6e6;
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-font-family: Helvetica;
+}
+
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #96b946;
 }

@@ -1,0 +1,165 @@
+<html>
+
+<body>
+<div class="fx_heading">
+	<h2> FX Personal Finance Manager </h2>
+	<h3> Account Statement </h3>
+</div>
+<hr />
+<div class="datagrid">
+<span id= "table1_heading"> Account Details </span>
+	<table id="account_details_table">
+		<thead>
+			<td> Account Name </td>
+			<td> Account Type </td>
+			<td> No. of Entries </td>
+			<td> Balance </td>
+		</thead>
+		<tr>
+			<!--datamarker_a-->
+		</tr>
+	</table>
+</div>
+<div class="datagrid">
+<span id="table2_heading"> Account Statement </span>
+	<table id="main_table">
+		<thead id="main_table_header"> 
+			<td> Date </td>
+			<td> Payee </td>
+			<td> Account </td>
+			<td> Memo </td>
+			<td> Withdrawal </td>
+			<td> Deposit </td>
+			<td> Balance </td>
+		</thead>
+		<!--datamarker_b-->
+	</table>
+</div>
+</body>
+<head> 
+	<!--<link rel="stylesheet" href="style.css" type="text/css" > -->
+	
+	<style type="text/css">
+	/*
+table, th, td {
+   border: 1px solid black;
+} 
+
+table
+{
+	border-collapse: collapse;
+}
+td{
+
+	padding: 5px;
+}
+*/
+#main_table 
+	{ 
+	border-collapse: collapse; 
+	text-align: left; 
+	width: 100%; 
+	} 
+	
+	.datagrid 
+	{
+	font: normal 12px/150% Arial, Helvetica, sans-serif; 
+	background: #fff; 
+	overflow: hidden; 
+	border: 1px solid #006699; 
+	-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; 
+	}
+	
+	.datagrid table td, .datagrid table th 
+	{ 
+	padding: 3px 10px; 
+	}
+	
+	.datagrid table thead th 
+	{
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+	background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+	background-color:#006699; 
+	color:#FFFFFF; 
+	font-size: 15px; 
+	font-weight: bold; border-left: 1px solid #0070A8; 
+	} 
+	
+	.datagrid table thead th:first-child 
+	{ border: none; }
+	
+	.datagrid table tbody td 
+	{ color: #00496B; border-left: 1px solid #E1EEF4;font-size: 12px;font-weight: normal; }
+	
+	.datagrid table tbody .alt td { background: #E1EEF4; color: #00496B; }
+	
+	.datagrid table tbody td:first-child { border-left: none;  }
+	
+	.datagrid table tbody tr:last-child td { border-bottom: none; }
+	
+	.datagrid table tfoot td div { border-top: 1px solid #006699;background: #E1EEF4;} 
+	
+	.datagrid table tfoot td { padding: 0; font-size: 12px } 
+	
+	.datagrid table tfoot td div{ padding: 2px; }
+	.datagrid table tfoot td ul { margin: 0; padding:0; list-style: none; text-align: right; }
+	.datagrid table tfoot  li { display: inline; }
+	.datagrid table tfoot li a 
+	{ 
+	text-decoration: none; 
+	display: inline-block; 
+	padding: 2px 8px;
+	margin: 1px;
+	color: #FFFFFF;
+	border: 1px solid #006699;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px; 
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+	background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+	background-color:#006699; 
+	}
+	
+	.datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover 
+	{ 
+	text-decoration: none;
+	border-color: #006699; 
+	color: #FFFFFF;
+	background: none; 
+	background-color:#00557F;
+	}
+	.datagrid table thead td
+	{
+		background-color: #989898;
+		font-weight: bold;
+	}
+	div.dhtmlx_window_active, div.dhx_modal_cover_dv { position: fixed !important; }
+	
+	.fx_heading h2
+	{
+		font: 40px Tahoma, Helvetica, Arial, Sans-Serif;
+	text-align: center;
+	
+	color: #222; text-shadow: 0px 2px 3px #555;
+	}
+	.fx_heading h3
+	{
+		font: 30px Tahoma, Helvetica, Arial, Sans-Serif;
+	text-align: center;
+	
+	color: #222; text-shadow: 0px 2px 3px #555;
+	}
+	
+	#table1_heading
+	{
+		font: 20px Tahoma, Helvetica, Arial, Sans-Serif;
+	}
+	#table2_heading
+	{
+		font: 20px Tahoma, Helvetica, Arial, Sans-Serif;
+	}
+	</style>
+</head>
+</html>

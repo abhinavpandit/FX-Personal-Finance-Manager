@@ -50,21 +50,22 @@ public class AccountTreeView
                         setText(null);
                 if(item!=null)
                 {
-                    System.out.println("update items called with : "+item);
+                    //System.out.println("update items called with : "+item);
                     setText(item.getAccountName());       
                     //setGraphic(icon1);
                     getTreeItem().setGraphic(icon1);
                     if(item instanceof AccountGroup )
                     {
                         //System.out.println("item is : "+item.getAccountName() +" > setting icon1");
-                        this.setStyle("-fx-font-weight : bold;-fx-background-color : green;-fx-font-size: 12;-fx-text-fill:white;");
+                        this.setStyle("-fx-font-weight : bolder;-fx-background-color : #9d4024;-fx-font-size: 12;-fx-text-fill:white;");
                         getTreeItem().setGraphic(icon1);
                         //System.out.println("ICON 1 : " +icon1.getImage().toString());                    
                     }
                      else
                     {
+                        
                         //System.out.println("item is : "+item.getAccountName() +" > setting icon2");
-                        this.setStyle("-fx-font-weight: normal;-fx-font-size: 12;");
+                        this.setStyle("-fx-font-weight: bold;-fx-font-size: 12;");
                         getTreeItem().setGraphic(icon2);
                         //System.out.println("ICON 2 : " +icon2.getImage().toString());
 

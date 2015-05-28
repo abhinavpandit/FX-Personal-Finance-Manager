@@ -24,6 +24,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -57,6 +58,7 @@ public class NewFileWizard extends Application
     private Button okButton;
     private Label statusLabel;
     private Stage mainStage;
+    private PasswordField passwordField;
     
     private File saveDirectory = new File(System.getProperty("user.home"));
     private DataModel dataModel;
@@ -108,6 +110,9 @@ public class NewFileWizard extends Application
         fileNameLabel.setFont(Font.font("Helvetica", FontWeight.BLACK, FontPosture.ITALIC, 12));
         fileNameField = new TextField();
         
+        Label passwordLabel = new Label("Set Password");
+        passwordField = new PasswordField();
+        
         saveLocationLabel = new Label(saveDirectory.getAbsolutePath());
         saveLocationLabel.setFont(Font.font("Helvetica", FontWeight.BLACK, FontPosture.ITALIC, 12));
         setLocationButton = new Button("Set Location");
@@ -125,12 +130,15 @@ public class NewFileWizard extends Application
         mainGrid.add(fileNameLabel , 0, 2);
         mainGrid.add(fileNameField,1,2);
         
-        mainGrid.add(saveLocationLabel,0,3);
-        mainGrid.add(setLocationButton, 1, 3);
+        mainGrid.add(passwordLabel,0,3);
+        mainGrid.add(passwordField,1,3);
         
-        mainGrid.add(okButton,1,4);
+        mainGrid.add(saveLocationLabel,0,4);
+        mainGrid.add(setLocationButton, 1, 4);
         
-        mainGrid.add(statusLabel, 0, 5, 2, 1);
+        mainGrid.add(okButton,1,5);
+        
+        mainGrid.add(statusLabel, 0, 6, 2, 1);
     }
     
     private void wireUpControls()
@@ -174,6 +182,7 @@ public class NewFileWizard extends Application
                     propertiesFile.createNewFile();
                     setUpPropertiesFile(propertiesFile);
                     setUpDatabaseFiles(propertiesFile);
+                    mainStage.close();
                 } 
                 catch (IOException ex) 
                 {
@@ -193,10 +202,8 @@ public class NewFileWizard extends Application
 
             private void setUpDatabaseFiles(File propertiesFile) throws SQLException 
             {
-               String dbURL = "jdbc:h2:" +propertiesFile.getParent() +"\\" +fileNameField.getText();
-                Connection connection = DriverManager.getConnection(dbURL);
-                connection.close();
-                System.out.println("dbURL is being set to :  "+dbURL);
+              
+               BlankDatabaseGenerator dbG = new BlankDatabaseGenerator(propertiesFile, fileNameField.getText(),passwordField.getText().trim());
             }
         });
         

@@ -7,7 +7,10 @@ package ui.panels.commons;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -29,12 +32,13 @@ public class StatusPanel extends HBox
     {
         this.status = status;
         label = new Label();
+        this.setBackground(new Background(new BackgroundFill(Color.AZURE, CornerRadii.EMPTY, Insets.EMPTY)));
         status.bindBidirectional(label.textProperty());
         this.getChildren().add(label);
         this.setPrefHeight(20);
         this.setMinHeight(20);
         label.setStyle("-fx-font-weight: bold;-fx-font-family:'Helvetica';-fx-font-size: 11;");
-        this.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.DOTTED, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        //this.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.DOTTED, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         
     }
     

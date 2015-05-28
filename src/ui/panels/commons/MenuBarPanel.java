@@ -10,10 +10,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.AbstractAccount;
 import models.DataModel;
@@ -22,6 +27,7 @@ import ui.dialogs.FullTransactionListDialog;
 import ui.dialogs.NewAccountDialog;
 import ui.dialogs.NewAccountGroupDialog;
 import ui.dialogs.NewTransactionDialog;
+import ui.dialogs.SettingsDialog;
 import ui.dialogs.TransactionCalendar;
 import utilities.NewFileWizard;
 
@@ -65,6 +71,7 @@ public class MenuBarPanel
         Menu toolsMenu;
         MenuItem payeeManagerMenuItem;
         MenuItem transactionCalendarMenuItem;
+        MenuItem settingsMenuItem;
         
         Stage mainStage;
         DataModel dataModel;
@@ -77,7 +84,7 @@ public class MenuBarPanel
       
         this.dataModel = dataModel;
         menuBar = new MenuBar();
-        //menuBar.getStylesheets().add(this.getClass().getResource("menuBar.css").toExternalForm());
+        menuBar.getStylesheets().add(this.getClass().getResource("menuBar.css").toExternalForm());
         System.out.println("FLAG MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         fileMenu = new Menu("File");
         newMenuItem = new MenuItem("New File");
@@ -113,14 +120,15 @@ public class MenuBarPanel
         toolsMenu = new Menu("Tools");
         payeeManagerMenuItem = new MenuItem("Payee Manager");
         transactionCalendarMenuItem = new MenuItem("Transaction Calander");
+        settingsMenuItem = new MenuItem("Settings");
         toolsMenu.getItems().add(payeeManagerMenuItem);
         toolsMenu.getItems().add(transactionCalendarMenuItem);
-        
+        toolsMenu.getItems().add(settingsMenuItem);
         menuBar.getMenus().add(toolsMenu);
         
         
         wireUpControls();
-        
+       // menuBar.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0.5), CornerRadii.EMPTY, Insets.EMPTY)));
         
     }
     private  void wireUpControls()
@@ -212,6 +220,16 @@ public class MenuBarPanel
         
         allTransactionsMenuItem.setOnAction(event ->{ 
         ui.dialogs.FullTransactionListDialog dialog = new FullTransactionListDialog(dataModel);
+            try {
+                dialog.start(mainStage);
+            } catch (Exception ex) {
+                Logger.getLogger(MenuBarPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        });
+        
+        settingsMenuItem.setOnAction(event -> { 
+        ui.dialogs.SettingsDialog dialog = new SettingsDialog(dataModel);
             try {
                 dialog.start(mainStage);
             } catch (Exception ex) {

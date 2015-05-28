@@ -1,127 +1,136 @@
-
 package test;
 
-import javafx.application.Application;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker.State;
-import javafx.print.*;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.transform.Scale;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
+import java.awt.*;
+import java.awt.font.*;
+import java.awt.geom.*;
+import java.awt.print.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.text.*;
+import static javax.management.Query.lt;
  
 /**
- * Demo to use JavaFX 8 Printer API.
- *
- * @author cdea
+ * Using JAVA to print simple text file to a printer
  */
-public class PrintDemo extends Application 
-{
-    private Stage primaryStageRef;
-    @Override
-    public void start(Stage primaryStage) {
  
-        final TextField urlTextField = new TextField();
-        final Button printButton = new Button("Print");
-        final WebView webPage = new WebView();
-        final WebEngine webEngine = webPage.getEngine();
+public class PrintDemo implements Printable {
  
-        HBox hbox = new HBox();
-        hbox.getChildren().addAll(urlTextField, printButton);
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(hbox);
-        borderPane.setCenter(webPage);
-        Scene scene = new Scene(borderPane, 300, 250);
-        primaryStage.setTitle("Print Demo");
-        primaryStage.setScene(scene);
-        primaryStageRef = primaryStage;
+    static AttributedString myStyledText = null;
  
-        // print button pressed, page loaded
-        final BooleanProperty printButtonClickedProperty = new SimpleBooleanProperty(false);
-        final BooleanProperty pageLoadedProperty = new SimpleBooleanProperty(false);
+    public static void main(String args[]) {
+        /**Location of a file to print**/
+        String fileName = "F:/ap/temp.txt";
  
-        // when the a page is loaded and the button was pressed call the print() method.
-        final BooleanProperty printActionProperty = new SimpleBooleanProperty(false);
-        printActionProperty.bind(pageLoadedProperty.and(printButtonClickedProperty));
+        /**Read the text content from this location **/
+        String mText = readContentFromFileToPrint(fileName);
  
-        // WebEngine updates flag when finished loading web page.
-        webEngine.getLoadWorker()
-                 .stateProperty()
-                 .addListener( (ChangeListener) (obsValue, oldState, newState) -> {
-                    if (newState == State.SUCCEEDED) {
-                        pageLoadedProperty.set(true);
-                    }
-                 });
- 
-        // When user enters a url and hits the enter key.
-        urlTextField.setOnAction( aEvent ->  {
-            pageLoadedProperty.set(false);
-            printButtonClickedProperty.set(false);
-            webEngine.load(urlTextField.getText());
-            System.out.println("loading url : "+webEngine.getLocation());
-        });
- 
-        // When the user clicks the print button the webview node is printed
-        printButton.setOnAction( aEvent -> {
-            printButtonClickedProperty.set(true);
-        });
-       
- 
-       
-        printActionProperty.addListener(new ChangeListener<Boolean>(){ 
-
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-            if(newValue) 
-            {
-                print(webPage);
-            }
-            }
-        });
- 
-        primaryStage.show();
+        /**Create an AttributedString object from the text read*/
+        myStyledText = new AttributedString(mText);
+        
+        printToPrinter();
  
     }
  
-    /** Scales the node based on the standard letter, portrait paper to be printed.
-     * @param node The scene node to be printed.
+    /**
+     * This method reads the content of a text file.
+     * The location of the file is provided in the parameter
      */
-    public void print(final Node node) {
-        
-        Printer printer = Printer.getDefaultPrinter();
-        PageLayout pageLayout = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
-        double scaleX = pageLayout.getPrintableWidth() / node.getBoundsInParent().getWidth();
-        double scaleY = pageLayout.getPrintableHeight() / node.getBoundsInParent().getHeight();
-        node.getTransforms().add(new Scale(scaleX, scaleY));
+    private static String readContentFromFileToPrint(String fileName) {
+        String dataToPrint = "";
  
-        PrinterJob job = PrinterJob.createPrinterJob();
-        job.showPrintDialog(primaryStageRef);
-        if (job != null) {
-            boolean success = job.printPage(node);
-            if (success) {
-                job.endJob();
+        try {
+            BufferedReader input = new BufferedReader(new FileReader(fileName));
+            String line = "";
+            /**Read the file and populate the data**/
+            while ((line = input.readLine()) != null) {
+                dataToPrint += line + "\n";
+            }
+        } catch (Exception e) {
+            return dataToPrint;
+        }
+        return dataToPrint;
+    }
+ 
+    /**
+     * Printing the data to a printer.
+     * Initialization done in this method.
+     */
+    public static void printToPrinter() {
+        /**
+         * Get a Printer Job
+         */
+        PrinterJob printerJob = PrinterJob.getPrinterJob();
+ 
+        /**
+         * Create a book. A book contains a pair of page painters
+         * called printables. Also you have different pageformats.
+         */
+        Book book = new Book();
+        /**
+         * Append the Printable Object (this one itself, as it
+         * implements a printable interface) and the page format.
+         */
+        book.append(new PrintDemo(), new PageFormat());
+        /**
+         * Set the object to be printed (the Book) into the PrinterJob. Doing this
+         * before bringing up the print dialog allows the print dialog to correctly
+         * display the page range to be printed and to dissallow any print settings not
+         * appropriate for the pages to be printed.
+         */
+        printerJob.setPageable(book);
+ 
+        /**
+         * Calling the printDialog will pop up the Printing Dialog.
+         * If you want to print without user confirmation, you can directly call printerJob.print()
+         *
+         * doPrint will be false, if the user cancels the print operation.
+         */
+        boolean doPrint = printerJob.printDialog();
+ 
+        if (doPrint) {
+            try {
+                printerJob.print();
+            } catch (PrinterException ex) {
+                System.err.println("Error occurred while trying to Print: "
+                        + ex);
             }
         }
     }
  
     /**
-     * The main() method is ignored in correctly deployed JavaFX application.
-     * main() serves only as fallback in case the application can not be
-     * launched through deployment artifacts, e.g., in IDEs with limited FX
-     * support. NetBeans ignores main().
-     *
-     * @param args the command line arguments
+     * This method comes from the Printable interface.
+     * The method implementation in this class
+     * prints a page of text.
      */
-    public static void main(String[] args) {
-        launch(args);
+    public int print(Graphics g, PageFormat format, int pageIndex) {
+ 
+        Graphics2D graphics2d = (Graphics2D) g;
+        /**
+         * Move the origin from the corner of the Paper to the corner of the imageable
+         * area.
+         */
+        graphics2d.translate(format.getImageableX(), format.getImageableY());
+ 
+        /** Setting the text color**/
+        graphics2d.setPaint(Color.black);
+        /**
+         * Use a LineBreakMeasurer instance to break our text into lines that fit the
+         * imageable area of the page.
+         */
+        Point2D.Float pen = new Point2D.Float();
+        AttributedCharacterIterator charIterator = myStyledText.getIterator();
+        LineBreakMeasurer measurer = new LineBreakMeasurer(charIterator,
+                graphics2d.getFontRenderContext());
+        float wrappingWidth = (float) format.getImageableWidth();
+        while (measurer.getPosition() < charIterator.getEndIndex()) {
+            TextLayout layout = measurer.nextLayout(wrappingWidth);
+            pen.y += layout.getAscent();
+            float dx = layout.isLeftToRight() ? 0 : (wrappingWidth - layout
+                    .getAdvance());
+            layout.draw(graphics2d, pen.x + dx, pen.y);
+            pen.y += layout.getDescent() + layout.getLeading();
+        }
+        return Printable.PAGE_EXISTS;
     }
+ 
 }

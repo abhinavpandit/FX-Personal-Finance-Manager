@@ -22,9 +22,40 @@ and open the template in the editor.
 
 .tree-view
 {
-    -fx-background-color: #8a8a8a;
+    -fx-background-color: #000000;
 }
-tree-view
+
+.table-view .column-header
 {
-    -fx-background-color: #606060;
+    -fx-background-color: #9d4024;
+    -fx-font-weight: bold;
+}
+.table-view .column-header .label
+{
+    -fx-text-fill: whitesmoke;
+}
+
+.button{
+    -fx-background-color: 
+        #c3c4c4,
+        linear-gradient(#d6d6d6 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+    -fx-font-weight: bold;
+    
+}
+.button Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
+    -fx-font-family: 'Helvetica';
+    
+}
+.button:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
 }

@@ -131,9 +131,9 @@ public class RegisterPanel
 
         mainGrid.add(accountTree.getTreeView(), 0, 0, 1, 3);  
         //mainGrid.add(accountTree.getTreeView(), 0, 1); 
-        mainGrid.add(registerTableView,1,1);
-        mainGrid.add(registerBottomPanel, 1, 2);
-        mainGrid.add(slimDataEntryPanel, 1, 0);
+        mainGrid.add(registerTableView,1,0,1,2);
+       // mainGrid.add(registerBottomPanel, 1, 2);
+        mainGrid.add(slimDataEntryPanel, 1, 2);
         
         GridPane.setValignment(slimDataEntryPanel, VPos.CENTER);
      // mainGrid.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
@@ -159,6 +159,7 @@ public class RegisterPanel
         mainGrid.setHgap(5);
         mainGrid.setVgap(5);
         mainGrid.setPadding(new Insets(2, 5, 2, 5));
+        mainGrid.getStylesheets().add(this.getClass().getResource("register.css").toExternalForm());
      //   mainGrid.setGridLinesVisible(true);
     }
     //********************** method to set up the Table View

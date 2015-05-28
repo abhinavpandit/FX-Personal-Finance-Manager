@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.AuthProvider;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -33,13 +35,18 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Reflection;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -48,6 +55,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.DataModel;
+import utilities.NewFileWizard;
 
 /**
  *
@@ -70,16 +78,41 @@ public class Preloader extends Application
     
     private Properties applicationProperties;
     private File fileToBeOpened;
-
+    
+    @Override
+    public void init()
+    {
+        Parameters parameters = getParameters();
+        List<String> raw = parameters.getRaw();
+        if(raw.size() == 1)
+        {
+            String filePath = raw.get(0);
+            fileToBeOpened = new File(filePath);
+        }
+        try 
+        {
+            loadProperties();
+            if(applicationProperties.getProperty("preloader","on").equals("off"))
+            {
+               // launchApplication();
+            }
+            setUpMainGrid();
+            setUpControls();
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(Preloader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public void start(Stage primaryStage) throws Exception 
     {
-        loadProperties();
+        
         
         this.stage = primaryStage;
         primaryStage.initStyle(StageStyle.TRANSPARENT);
-        setUpMainGrid();
-        setUpControls();
+        
         
         final Scene scene = new Scene(mainGrid,Color.rgb(0,0, 0, 0));
         //scene.setFill(Color.gray(0.2, 0.5));
@@ -97,24 +130,35 @@ public class Preloader extends Application
         mainGrid.setHgap(5);
         mainGrid.setPadding(new Insets(5));
         mainGrid.getStylesheets().add(this.getClass().getResource("preloader.css").toExternalForm());
-        ColumnConstraints col1 = new ColumnConstraints(100, 150, 200, Priority.ALWAYS, HPos.LEFT, true);
-        ColumnConstraints col2 = new ColumnConstraints(200, 250, Double.MAX_VALUE, Priority.ALWAYS, HPos.LEFT, true);
-        mainGrid.getColumnConstraints().addAll(col1,col2);
+        ColumnConstraints col1 = new ColumnConstraints(150);
+        ColumnConstraints col2 = new ColumnConstraints(150);
+        ColumnConstraints col3 = new ColumnConstraints(150);
+        mainGrid.getColumnConstraints().addAll(col1,col2,col3);
+        
+        RowConstraints row1 = new RowConstraints(30, 40, 50, Priority.SOMETIMES, VPos.CENTER, true);
+        mainGrid.getRowConstraints().add(row1);
         
         
-        Text fxLabel = new Text("FX Personal Finance Manager");
+        Label fxLabel = new Label("FX Personal Finance Manager");
         //fxLabel.setFont(Font.font("Helvetica", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 14));
         //fxLabel.setFill(Color.WHITESMOKE);
         fxLabel.getStyleClass().add("heading_text");
         
-        String lastFilePath = applicationProperties.getProperty("lastfile", null);
-        if(lastFilePath!=null)
-        {
-            fileToBeOpened = new File(lastFilePath);
-        }
-        filePathLabel = new Label(lastFilePath);
+        Button closeButton = new Button();
+        ImageView closeButtonIcon = new ImageView(this.getClass().getResource("res/close.png").toExternalForm());
+        closeButtonIcon.setFitHeight(16);
+        closeButtonIcon.setFitWidth(16);
+        closeButton.setGraphic(closeButtonIcon);
+        closeButton.setOnAction(event -> System.exit(0));
+       
+        
+        filePathLabel = new Label("");
+        if(fileToBeOpened != null)
+            filePathLabel.setText(fileToBeOpened.getAbsolutePath());
+        filePathLabel.setFont(Font.font(10));
         Text openFileText = new Text("OPEN FILE : ");
         openFileText.setFill(Color.WHITE);
+        filePathLabel.wrapTextProperty().setValue(Boolean.TRUE);
         filePathLabel.getStyleClass().add("file_path");
         openFileText.getStyleClass().add("file_path");
         
@@ -122,41 +166,48 @@ public class Preloader extends Application
         chooseButton = new Button("Browse");
         
         launchButton = new Button("Launch Application");
+        launchButton.setMaxWidth(Double.MAX_VALUE);
         createNewFileButton = new Button("Create New File");
         
         exitButton = new Button("EXIT");
         Label passwordLabel = new Label("Password ");
+        passwordLabel.setTextFill(Color.WHITE);
+        
         passwordField = new PasswordField();
         
         statusLabel = new Label("/");
         statusLabel.setFont(Font.font("Helvetica", FontWeight.BLACK, FontPosture.ITALIC, 12));
         
-        mainGrid.add(fxLabel, 0, 0, 2, 1);
+        mainGrid.add(fxLabel, 0, 0, 3, 1);
         
-        mainGrid.add(openFileText,0,1);
-        mainGrid.add(filePathLabel,1,1);
+        Rectangle r = new Rectangle(500, 2);
+        r.setStroke(Color.WHITESMOKE);
+        mainGrid.add(r,0,1,3,1);
         
-        mainGrid.add(chooseButton,0,2);
-        mainGrid.add(createNewFileButton,1,2);
+
+        mainGrid.add(openFileText,0,2);
+        mainGrid.add(filePathLabel,1,2,2,1);
         
-       // mainGrid.add(passwordLabel,0,3);
-        //mainGrid.add(passwordField, 1, 3);
+        mainGrid.add(passwordLabel, 0, 3);
+        mainGrid.add(passwordField,1,3,2,1);
         
-        mainGrid.add(launchButton, 0, 3);
-        mainGrid.add(exitButton,1,3);
+        mainGrid.add(launchButton, 0, 4);
+        mainGrid.add(chooseButton,1,4);
+        mainGrid.add(createNewFileButton,2,4);
         
-        mainGrid.add(statusLabel,0,4,2,1);
+       
+        
+        mainGrid.add(statusLabel,0,5,2,1);
+        mainGrid.add(closeButton,2,5);
+        GridPane.setHalignment(closeButton, HPos.RIGHT);
         
         
-       mainGrid.setBlendMode(BlendMode.COLOR_BURN);
-       mainGrid.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0.7), new CornerRadii(5), Insets.EMPTY)));
+      // mainGrid.setBlendMode(BlendMode.COLOR_BURN);
+       mainGrid.setBackground(new Background(new BackgroundFill(Color.rgb(40, 50, 200, 0.9), new CornerRadii(5), Insets.EMPTY)));
         
         //mainGrid.add(textArea,0,3,2,1);
     }
-    public static void main(String [] args)
-    {
-        launch(args);
-    }
+    
 
     private void setUpControls() 
     {
@@ -178,7 +229,37 @@ public class Preloader extends Application
             @Override
             public void handle(ActionEvent event) 
             {
-               if(fileToBeOpened == null)
+                launchApplication();
+            }
+        });
+        
+        createNewFileButton.setOnAction((ActionEvent event) -> 
+        {
+            NewFileWizard wizard = new NewFileWizard();
+            try {
+                wizard.start(stage);
+            } catch (Exception ex) {
+                Logger.getLogger(Preloader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        exitButton.setOnAction(event -> System.exit(0));
+    }
+
+    private void loadProperties() throws FileNotFoundException, IOException 
+    {
+        applicationProperties = new Properties();
+        applicationProperties.load(new FileInputStream("conf/app.conf"));
+        String lastFilePath = applicationProperties.getProperty("lastfile", null);
+        if(lastFilePath!=null)
+        {
+            fileToBeOpened = new File(lastFilePath);
+        }
+        
+    }
+    private void launchApplication()
+    {
+        if(fileToBeOpened == null)
                    return;
                Properties propertyFile = new Properties();
                 try 
@@ -193,7 +274,7 @@ public class Preloader extends Application
                     System.out.println("DB FIle URL is : "+dbFile.getAbsolutePath());
                     
                     statusLabel.setText("Initilizing Data Model");
-                    DataModel dataModel = new DataModel(dbFile, null);
+                    DataModel dataModel = new DataModel(dbFile, null,passwordField.getText());
                     statusLabel.setText("Finished Initilizing Data Model");
                     Main mainApplication = new Main();
                     mainApplication.setDataModel(dataModel);
@@ -212,17 +293,7 @@ public class Preloader extends Application
                 {
                     handleException(ex);
                 }
-            }
-        });
-        
-        exitButton.setOnAction(event -> System.exit(0));
-    }
-
-    private void loadProperties() throws FileNotFoundException, IOException 
-    {
-        applicationProperties = new Properties();
-        applicationProperties.load(new FileInputStream("conf/app.conf"));
-        
+            
     }
     
     private void handleException(Exception ex)
@@ -260,4 +331,8 @@ public class Preloader extends Application
         alert.showAndWait();
     }
     
+    public static void main(String [] args)
+    {
+        launch(args);
+    }
 }

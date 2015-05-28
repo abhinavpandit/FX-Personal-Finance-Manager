@@ -1,0 +1,16 @@
+INCOME VS EXPENSE REPORT
+
+From : 	Fri May 22 18:18:36 IST 2015 TO 	Fri May 22 18:18:36 IST 2015
+
+|                                       INCOME|                                      EXPENSE|
+__________________________________________________________________________
+|                   Description         Amount|                   Description         Amount|
+---------------------------------------------------------------------------------------
+|                     By Salary      -406000.0|           By Health & Medical          550.0|
+|                   By Interest            0.0|             By Transportation        18500.0|
+|                                             |                By Electronics         8500.0|
+|                                             |                    By Clothes        10900.0|
+|                                             |        By Electricity & Water         5390.0|
+|                                             |                       By Rent        40500.0|
+|                                             |                 By Stationery         1600.0|
+---------------------------------------------------------------------------

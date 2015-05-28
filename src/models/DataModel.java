@@ -8,6 +8,9 @@ package models;
 import dbAccess.DataInitializer;
 import dbAccess.DatabaseAccessObject;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,6 +22,7 @@ import static java.util.Collections.list;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -37,16 +41,17 @@ public class DataModel
     private final ObservableList<Payee> payeeList =  FXCollections.observableArrayList();
     private final ObservableList<ScheduledTransaction> scheduledTransactionList = FXCollections.observableArrayList();
     DatabaseAccessObject dao;
-    private final StringProperty status;
+    private StringProperty status;
     private AccountGroup rootGroup;
     private final File databaseFile;
+    private Properties applicationProperties;
     
-    public DataModel(File dbFile, StringProperty status) throws SQLException
+    public DataModel(File dbFile, StringProperty status,String pass) throws SQLException, IOException
     {
     	this.status = status;
         this.databaseFile = dbFile;
          String dbFileURL = "jdbc:h2:" +dbFile.getAbsolutePath() +";IFEXISTS=TRUE";
-        Connection dbConnection = DriverManager.getConnection(dbFileURL);
+        Connection dbConnection = DriverManager.getConnection(dbFileURL,"fxm", pass);
         
         DataInitializer di = new DataInitializer(accountList,transactionList,accountGroupList,payeeList,dbConnection);
         di.setScheduledTransactionList(scheduledTransactionList);
@@ -54,7 +59,7 @@ public class DataModel
         
         dao = new DatabaseAccessObject(dbConnection);
         rootGroup = getAccountGroupByID(0);
-        
+        setUpApplicationProperties();
     }
     public ObservableList<Account> getAccountList() {return accountList; }
     public ObservableList<AccountGroup> getAccountGroupList() {return accountGroupList; }
@@ -298,6 +303,19 @@ public class DataModel
     public void closeConnection() throws SQLException
     {
         dao.closeConnection();
+    }
+    public void setStatusProperty(StringProperty status)
+    {
+        this.status = status;
+    }
+    private void setUpApplicationProperties() throws FileNotFoundException, IOException
+    {
+        applicationProperties = new Properties();
+        applicationProperties.load(new FileInputStream("conf/app.conf"));
+    }
+    public Properties getApplicationProperties()
+    {
+        return applicationProperties;
     }
    
     public static void main(String [] args) throws SQLException
